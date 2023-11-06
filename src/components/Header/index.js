@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { width, height } = Dimensions.get('window');
 
 const Header = ({ userName, text}) => {
+  const [mostrarSaldo, setMostrarSaldo] = useState(false);
+
   return (
     <View style={styles.header}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
-            <View>
-                {"X"}
-            </View>
+            <Text>
+                X
+            </Text>
         </TouchableOpacity>
-      </View>
+        </View>
+      <View> 
+        <TouchableOpacity onPress={() => setMostrarSaldo(!mostrarSaldo)}>
+          <Text>{mostrarSaldo ? 'Saldo: R$1000.00' : 'Saldo Oculto'}</Text>
+        </TouchableOpacity>
+        </View>
+
+      
       <Text style={styles.welcomeText}>{text}</Text>
     </View>
   );
@@ -31,8 +41,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
   },
   button: {
-    width: width * 0.06, 
-    height: width * 0.06, 
+    width: width * 0.05, 
+    height: width * 0.05, 
     borderRadius: width * 0.03, 
     backgroundColor: 'white', 
     justifyContent: 'center',
