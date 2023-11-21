@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { width, height } = Dimensions.get('window');
 
-const Header = ({ userName, text}) => {
+const Voltar = ({text}) => {
   const [mostrarSaldo, setMostrarSaldo] = useState(false);
 
   return (
@@ -16,22 +16,7 @@ const Header = ({ userName, text}) => {
             </Text>
         </TouchableOpacity>
         </View>
-      <View> 
-        <TouchableOpacity onPress={() => setMostrarSaldo(!mostrarSaldo)}>
-          <Text>{mostrarSaldo ? 'Saldo: R$1000.00' : 'Saldo Oculto'}</Text>
-        </TouchableOpacity>
-        </View>
-
-      
-      <Text style={styles.welcomeText}>{text}</Text>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-            <Text>
-                X
-            </Text>
-        </TouchableOpacity>
-        </View>
+        <Text style={styles.welcomeText}>{text}</Text>
     </View>
   );
 };
@@ -58,11 +43,11 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   welcomeText: {
-    flex: 2, 
+    flex: 1.5, 
     fontSize: 18,
     color: 'white', 
     marginLeft: 10, 
   },
 });
 
-export default Header;
+export default Voltar;

@@ -1,55 +1,47 @@
 import Header from "../../components/Header";
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Movements from "../../components/Movements";
-
-const list = [
-    {
-        id: 1,
-        label: "Boleto conta de luz",
-        value: "300,90",
-        date: '17/09/2022',
-        type: 0
-    },
-    {
-        id: 2,
-        label: 'pix Cliente x',
-        value: '2.500,00',
-        date: '22/09/2022',
-        type: 1,
-    },
-    {
-        id: 3,
-        label: 'salario',
-        value: '7.200,00',
-        date: '30/09/2022',
-        type: 1,
-    },
-    {
-        id: 4,
-        label: 'salario',
-        value: '7.200,00',
-        date: '30/09/2022',
-        type: 1,
-    },
-]
 
 export default function Home(){
     return(
-        <View style={styles.container}>
-            <Header userName={"Pablo"} text="Movimentações"/>
-            <FlatList
-            style={styles.list}
-            data={list}
-            keyExtractor={(item) => String(item.id)}
-            showsVerticalScrollIndicator={false}
-            renderItem={ ({item}) =>  <Movements data={item}/>}
-            />
+    <View style={styles.all}> 
+        <Header text="Movimentações"/>
+            <View style={styles.container}>
+            
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Movimentação</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Empréstimo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Cartão</Text>
+            </TouchableOpacity>
         </View>
+    </View>
     )
 }
 const styles = StyleSheet.create({
-    container: {
+    all: {
         flex: 1,
-        backgroundColor: "#EAFDFF"
-    }
-})
+    },
+  container: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  button: {
+    width: '80%',
+    height: '15%',
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '50px',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+});
+
+
