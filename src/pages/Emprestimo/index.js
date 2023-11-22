@@ -10,27 +10,7 @@ const list = [
         date: '17/09/2022',
         type: 0
     },
-    {
-        id: 2,
-        label: 'pix Cliente x',
-        value: '2.500,00',
-        date: '22/09/2022',
-        type: 1,
-    },
-    {
-        id: 3,
-        label: 'salario',
-        value: '7.200,00',
-        date: '30/09/2022',
-        type: 1,
-    },
-    {
-        id: 4,
-        label: 'salario',
-        value: '7.200,00',
-        date: '30/09/2022',
-        type: 1,
-    },
+
 ]
 
 export default function User(){
@@ -44,24 +24,19 @@ export default function User(){
 
                     <TextInput
                     style={styles.input}
-                    placeholder="Conta"
-                    //onChangeText={(text) => setNumero(text)}
-                    />
-
-                    <TextInput
-                    style={styles.input}
                     placeholder="Valor"
                     //onChangeText={(text) => setNumero(text)}
                     />
 
 
                         <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Fazer Transação</Text>
+                    <Text style={styles.buttonText}>Pedir Emprestimo</Text>
                  </TouchableOpacity>
              </View>
+
         </View>
 
-
+        <Text>Empréstimo Pendente:</Text>
             <FlatList
             style={styles.list}
             data={list}
