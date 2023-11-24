@@ -1,6 +1,7 @@
 import Header from "../../components/Header";
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Movements from "../../components/Movements";
+//import { Link } from 'expo-router'
 
 export default function Home(){
     return(
@@ -11,6 +12,7 @@ export default function Home(){
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Movimentação</Text>
             </TouchableOpacity>
+            
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Empréstimo</Text>
             </TouchableOpacity>
