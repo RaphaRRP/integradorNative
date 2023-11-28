@@ -17,7 +17,7 @@ export default function User(){
 
     return(
         <View style={styles.container}>
-            <Voltar text="Movimentações"/>
+            <Voltar text="Empréstimo"/>
         
                 <View style={styles.quadrado}>
                     <View style={styles.square}>

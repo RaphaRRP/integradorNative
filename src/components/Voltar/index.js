@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
 
 const Voltar = ({text}) => {
   const [mostrarSaldo, setMostrarSaldo] = useState(false);
+  const { navigate } = useNavigation();
 
   return (
     <View style={styles.header}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+        onPress={() => {navigate('Home')}}>
             <Text>
                 X
             </Text>

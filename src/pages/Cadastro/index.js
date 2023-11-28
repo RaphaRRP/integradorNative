@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Voltar from "../../components/Voltar";
+import {useNavigation} from '@react-navigation/native'
+
 
 const Cadastro = () => {
   const [numero, setNumero] = useState('');
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
 
+  const { navigate } = useNavigation();
+
   const handleLogin = () => {
     // Lógica de autenticação aqui
     console.log('Número:', numero);
     console.log('Usuário:', usuario);
     console.log('Senha:', senha);
+    navigate('LoginScreen')
   };
 
   const handleCadastro = () => {
     // Lógica de cadastro aqui
     console.log('Cadastro pressionado');
+    navigate('LoginScreen')
   };
 
   return (
     <View style={styles.all}>
-      <Voltar/>
       <View style={styles.container}>
         
         <TextInput
@@ -73,6 +78,11 @@ const Cadastro = () => {
           onChangeText={(text) => setSenha(text)}
         />
         <Button title="Cadastrar!" onPress={handleLogin} />
+
+        <TouchableOpacity onPress={handleCadastro}>
+        <Text></Text>
+        <Text style={styles.cadastroButton}>Ir Para tela de Login</Text>
+      </TouchableOpacity>
 
       </View>
     </View>

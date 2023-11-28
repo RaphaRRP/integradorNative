@@ -6,7 +6,7 @@ const Cartao = () => {
   return (
     
     <View  style={styles.all}> 
-    <Voltar text="Movimentações"/>
+    <Voltar text="Cartão"/>
     <View style={styles.container}>
 
     

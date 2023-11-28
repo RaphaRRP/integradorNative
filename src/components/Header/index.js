@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
 
 const Header = ({ userName, text}) => {
   const [mostrarSaldo, setMostrarSaldo] = useState(false);
-
+  const { navigate } = useNavigation();
   return (
     <View style={styles.header}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+            onPress={() => {navigate('LoginScreen')}}>
             <Text>
                 X
             </Text>
@@ -26,7 +28,8 @@ const Header = ({ userName, text}) => {
       <Text style={styles.welcomeText}>{text}</Text>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}
+            onPress={() => {navigate('User')}}>
             <Text>
                 X
             </Text>

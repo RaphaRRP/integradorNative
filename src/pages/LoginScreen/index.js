@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import {useNavigation} from '@react-navigation/native'
+
+export default function LoginScreen(){
+
+const { navigate } = useNavigation();
 
 const LoginScreen = () => {
   const [numero, setNumero] = useState('');
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
 
+};
   const handleLogin = () => {
     // Lógica de autenticação aqui
-    console.log('Número:', numero);
-    console.log('Usuário:', usuario);
-    console.log('Senha:', senha);
+    //console.log('Número:', numero);
+    //console.log('Usuário:', usuario);
+    //console.log('Senha:', senha);
+    navigate('Home')
   };
 
   const handleCadastro = () => {
     // Lógica de cadastro aqui
     console.log('Cadastro pressionado');
+    navigate('Cadastro')
   };
+
 
   return (
     <View style={styles.container}>
@@ -24,20 +33,20 @@ const LoginScreen = () => {
         style={styles.input}
         placeholder="Número"
         keyboardType="numeric"
-        value={numero}
+        value={LoginScreen.numero}
         onChangeText={(text) => setNumero(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Usuário"
-        value={usuario}
+        value={LoginScreen.usuario}
         onChangeText={(text) => setUsuario(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Senha"
         secureTextEntry
-        value={senha}
+        value={LoginScreen.senha}
         onChangeText={(text) => setSenha(text)}
       />
       <Button title="Logar" onPress={handleLogin} />
@@ -46,9 +55,10 @@ const LoginScreen = () => {
         <Text></Text>
         <Text style={styles.cadastroButton}>Cadastrar</Text>
       </TouchableOpacity>
-    </View>
-  );
-};
+  </View>
+  
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -69,6 +79,5 @@ const styles = StyleSheet.create({
     color: 'blue',
     marginTop: 16,
   },
-});
+})
 
-export default LoginScreen;

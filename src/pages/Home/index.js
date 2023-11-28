@@ -1,22 +1,26 @@
 import Header from "../../components/Header";
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Movements from "../../components/Movements";
-//import { Link } from 'expo-router'
+import {useNavigation} from '@react-navigation/native'
 
 export default function Home(){
+  const { navigate } = useNavigation();
     return(
     <View style={styles.all}> 
-        <Header text="Movimentações"/>
+        <Header text="Home"/>
             <View style={styles.container}>
             
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button}
+            onPress={() => {navigate('Movimentacoes')}}>
                 <Text style={styles.buttonText}>Movimentação</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button}
+            onPress={() => {navigate('Emprestimo')}}>
                 <Text style={styles.buttonText}>Empréstimo</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button}
+            onPress={() => {navigate('Cartao')}}>
                 <Text style={styles.buttonText}>Cartão</Text>
             </TouchableOpacity>
         </View>
