@@ -1,13 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'
 import {useNavigation} from '@react-navigation/native'
+import axios from 'axios'
 
 const { width, height } = Dimensions.get('window');
 
 const Header = ({ userName, text}) => {
   const [mostrarSaldo, setMostrarSaldo] = useState(false);
   const { navigate } = useNavigation();
+  const [saldo, setSaldo] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://10.109.71.22:8000/api/v1/cliente/2/",
+          {
+            headers: {
+              Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
+            },
+          }
+        );
+        setSaldo(response.data.saldo);
+      } catch (error) {
+        console.error("Erro ao obter usuário:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+
   return (
     <View style={styles.header}>
       <View style={styles.buttonContainer}>
@@ -18,7 +42,7 @@ const Header = ({ userName, text}) => {
         </View>
       <View> 
         <TouchableOpacity onPress={() => setMostrarSaldo(!mostrarSaldo)}>
-          <Text>{mostrarSaldo ? 'Saldo: R$1000.00' : 'Saldo Oculto'}</Text>
+          <Text>{mostrarSaldo ? `Saldo: R$${saldo}` : 'Saldo Oculto'}</Text>
         </TouchableOpacity>
         </View>
 

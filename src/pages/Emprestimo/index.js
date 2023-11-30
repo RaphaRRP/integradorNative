@@ -1,19 +1,33 @@
 import Voltar from "../../components/Voltar";
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput} from 'react-native';
 import Movements from "../../components/Movements";
+import axios from 'axios'
+import React, { useState, useEffect } from 'react';
 
-const list = [
-    {
-        id: 1,
-        label: "Boleto conta de luz",
-        value: "300,90",
-        date: '17/09/2022',
-        type: 0
-    },
+const Emprestimo = () => {
 
-]
+const [emprestimo, setEmprestimo] = useState("");
 
-export default function User(){
+useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://10.109.71.22:8000/api/v1/cliente/5/",
+          {
+            headers: {
+              Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
+            },
+          }
+        );
+        setEmprestimo(response.data.emprestimo);
+      } catch (error) {
+        console.error("Erro ao obter usuário:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
 
     return(
         <View style={styles.container}>
@@ -34,16 +48,10 @@ export default function User(){
                  </TouchableOpacity>
              </View>
 
+             <Text style={styles.qnt}>Quantidade de dinheiro emprestado: R${emprestimo}</Text>
+
         </View>
 
-        <Text>Empréstimo Pendente:</Text>
-            <FlatList
-            style={styles.list}
-            data={list}
-            keyExtractor={(item) => String(item.id)}
-            showsVerticalScrollIndicator={false}
-            renderItem={ ({item}) =>  <Movements data={item}/>}
-            />
         </View>
     )
 }
@@ -83,4 +91,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
       },
+      qnt: {
+        fontSize: 20
+      }
     });
+
+export default Emprestimo;

@@ -1,17 +1,44 @@
 import Header from "../../components/Header";
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Movements from "../../components/Movements";
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation } from '@react-navigation/native'
+import axios from 'axios'
+import { useState, useEffect } from "react";
 
-async function getUser() {
-  const response = await axios.get('http://127.0.0.1:8000/api/v1/cliente/')
-  console.log(response.data)
-  return response.data.usuario
-}
+// async function getUser() {
+//   const response = await axios.get('http://10.109.71.22:8000/api/v1/cliente/1/', {
+//     headers: {
+//       Authorization: 'Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11'
+//     }
+//   })
+//   console.log(response.data)
+//   return response.data.usuario
+// }
 
-export default function Home(){
+const Home = () => {
   const { navigate } = useNavigation();
-    return(
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://10.109.71.22:8000/api/v1/cliente/2/",
+          {
+            headers: {
+              Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
+            },
+          }
+        );
+        setSaldo(response.data.saldo);
+      } catch (error) {
+        console.error("Erro ao obter usuário:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  return(
     <View style={styles.all}> 
         <Header text="Home"/>
           <View style={styles.container}>
@@ -29,11 +56,11 @@ export default function Home(){
             onPress={ () => {navigate('Cartao')}}>
                 <Text style={styles.buttonText}>Cartão</Text>
             </TouchableOpacity>
-            <Text> oi {getUser} </Text>
         </View>
     </View>
     )
 }
+
 const styles = StyleSheet.create({
     all: {
         flex: 1,
@@ -57,4 +84,6 @@ const styles = StyleSheet.create({
   },
 });
 
+
+export default Home;
 

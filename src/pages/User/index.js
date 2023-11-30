@@ -2,33 +2,67 @@ import Voltar from "../../components/Voltar";
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Movements from "../../components/Movements";
 import axios from 'axios'
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 
 const User = () => {
-  // Dicionário com os valores dos campos
-  const userInformation = {
-    usuario: 'NomeDeUsuario',
-    senha: 'Senha123',
-    cpf_cnpj: '123.456.789-00',
-    cep: '12345-678',
-    telefone: '(12) 3456-7890',
-    email: 'usuario@example.com',
-  };
 
+  const [usuario, setUsuario] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [cep, setCep] = useState("");
+  const [tel, setTel] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://10.109.71.22:8000/api/v1/cliente/4/",
+          {
+            headers: {
+              Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
+            },
+          }
+        );
+        setUsuario(response.data.usuario);
+        setCpf(response.data.cpf_cnpj);
+        setCep(response.data.cep);
+        setTel(response.data.numero);
+        setEmail(response.data.email);
+      } catch (error) {
+        console.error("Erro ao obter usuário:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+  
   return (
     <View style={styles.all}> 
     <Voltar text='Usuer'/>
         <View style={styles.container}>
         <View style={styles.circle} />
 
-        {Object.entries(userInformation).map(([key, value]) => (
-            <View style={styles.fieldContainer} key={key}>
-            <Text style={styles.label}>{key.toUpperCase()}</Text>
-            <Text style={styles.value}>{value}</Text>
-            </View>
-        ))}
+      <Text style={styles.label}>USUÁRIO</Text>
+      <Text style={styles.value}>{usuario}</Text>
+      <Text> </Text>
+
+      <Text style={styles.label}>CPF_CNPJ</Text>
+      <Text style={styles.value}>{cpf}</Text>
+      <Text> </Text>
+
+      <Text style={styles.label}>CEP</Text>
+      <Text style={styles.value}>{cep}</Text>
+      <Text> </Text>
+
+      <Text style={styles.label}>TELEFONE</Text>
+      <Text style={styles.value}>{tel}</Text>
+      <Text> </Text>
+
+      <Text style={styles.label}>EMAIL</Text>
+      <Text style={styles.value}>{email}</Text>
+        
         </View>
     </View>
   );

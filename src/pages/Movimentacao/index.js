@@ -1,39 +1,43 @@
 import Voltar from "../../components/Voltar";
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput} from 'react-native';
 import Movements from "../../components/Movements";
+import axios from 'axios'
+import React, { useState, useEffect } from 'react';
 
-const list = [
-    {
-        id: 1,
-        label: "Boleto conta de luz",
-        value: "300,90",
-        date: '17/09/2022',
-        type: 0
-    },
-    {
-        id: 2,
-        label: 'pix Cliente x',
-        value: '2.500,00',
-        date: '22/09/2022',
-        type: 1,
-    },
-    {
-        id: 3,
-        label: 'salario',
-        value: '7.200,00',
-        date: '30/09/2022',
-        type: 1,
-    },
-    {
-        id: 4,
-        label: 'salario',
-        value: '7.200,00',
-        date: '30/09/2022',
-        type: 1,
-    },
-]
 
-export default function User(){
+const Movimentacao = () =>{
+
+    const [movements, setMovements] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+          try {
+            const response = await axios.get(
+              "http://10.109.71.22:8000/api/v1/cliente/2/movimentacao/",
+              {
+                headers: {
+                  Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
+                },
+              }
+            );
+            setMovements(response.data);
+            console.log(response.data)
+          } catch (error) {
+            console.error("Erro ao obter usuário:", error);
+          }
+        }
+    
+        fetchData();
+      }, []);
+
+      const renderMovementItem = ({ item }) => (
+        <View style={styles.item}>
+          <Text
+          style={item.cliente_receber === 2 ? styles.value : styles.expenses}
+          >{item.codigo} || Valor: R$ {item.valor}</Text>
+          <Text> </Text>
+        </View>
+      );
 
     return(
         <View style={styles.container}>
@@ -61,14 +65,14 @@ export default function User(){
              </View>
         </View>
 
-
-            <FlatList
-            style={styles.list}
-            data={list}
-            keyExtractor={(item) => String(item.id)}
-            showsVerticalScrollIndicator={false}
-            renderItem={ ({item}) =>  <Movements data={item}/>}
-            />
+        <View style={styles.container}>
+      <Text style={styles.title}>Últimas movimentações:</Text>
+      <FlatList
+        data={movements}
+        keyExtractor={(item) => item.codigo.toString()}
+        renderItem={renderMovementItem}
+      />
+        </View>
         </View>
     )
 }
@@ -108,4 +112,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
       },
+      value:{
+          fontSize: 16,
+          color: '#2ecc71',
+          fontWeight: 'bold,'
+      },
+      expenses:{
+          fontSize: 16,
+          color: '#e74c3c',
+          fontWeight: 'bold,'
+      },
+      title:{
+        fontSize: 20,
+      }
     });
+
+    export default Movimentacao;
