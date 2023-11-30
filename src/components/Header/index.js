@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { AntDesign } from '@expo/vector-icons'
 import {useNavigation} from '@react-navigation/native'
 
 const { width, height } = Dimensions.get('window');
@@ -13,9 +13,7 @@ const Header = ({ userName, text}) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}
             onPress={() => {navigate('LoginScreen')}}>
-            <Text>
-                X
-            </Text>
+            <AntDesign name="export2" size={24} color="black" />
         </TouchableOpacity>
         </View>
       <View> 
@@ -30,9 +28,7 @@ const Header = ({ userName, text}) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}
             onPress={() => {navigate('User')}}>
-            <Text>
-                X
-            </Text>
+              <AntDesign name="user" size={24} color="black" />
         </TouchableOpacity>
         </View>
     </View>

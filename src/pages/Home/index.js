@@ -3,12 +3,18 @@ import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'rea
 import Movements from "../../components/Movements";
 import {useNavigation} from '@react-navigation/native'
 
+async function getUser() {
+  const response = await axios.get('http://127.0.0.1:8000/api/v1/cliente/')
+  console.log(response.data)
+  return response.data.usuario
+}
+
 export default function Home(){
   const { navigate } = useNavigation();
     return(
     <View style={styles.all}> 
         <Header text="Home"/>
-            <View style={styles.container}>
+          <View style={styles.container}>
             
             <TouchableOpacity style={styles.button}
             onPress={() => {navigate('Movimentacoes')}}>
@@ -20,9 +26,10 @@ export default function Home(){
                 <Text style={styles.buttonText}>Empréstimo</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}
-            onPress={() => {navigate('Cartao')}}>
+            onPress={ () => {navigate('Cartao')}}>
                 <Text style={styles.buttonText}>Cartão</Text>
             </TouchableOpacity>
+            <Text> oi {getUser} </Text>
         </View>
     </View>
     )

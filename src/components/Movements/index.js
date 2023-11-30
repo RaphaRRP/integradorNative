@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
+
 export default function Movements({ data }){
     return(
         <View style={styles.container}>
