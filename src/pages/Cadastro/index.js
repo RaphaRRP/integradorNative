@@ -2,28 +2,64 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Voltar from "../../components/Voltar";
 import {useNavigation} from '@react-navigation/native'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 
 const Cadastro = () => {
-  const [numero, setNumero] = useState('');
+  const { navigate } = useNavigation();
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
-
-  const { navigate } = useNavigation();
+  const [cpf_cnpj, setCpf_cnpj] = useState('');
+  const [cep, setCep] = useState('');
+  const [numero, setNumero] = useState('');
+  const [email, setEmail] = useState('');
+  const dados = {
+    usuario: usuario,
+    senha: senha,
+    cpf_cnpj: cpf_cnpj,
+    cep: cep,
+    numero: numero,
+    email: email,
+  }
 
   const handleLogin = () => {
-    // Lógica de autenticação aqui
-    console.log('Número:', numero);
-    console.log('Usuário:', usuario);
-    console.log('Senha:', senha);
     navigate('LoginScreen')
   };
 
-  const handleCadastro = () => {
-    // Lógica de cadastro aqui
-    console.log('Cadastro pressionado');
-    navigate('LoginScreen')
+
+  const enviarRequisicao = async (token, dados) => {
+    try {
+      const resposta = await axios.post(
+        'http://10.109.71.22:8000/api/v1/cliente/',
+        {
+          usuario: usuario,
+          senha: senha,
+          cpf_cnpj: cpf_cnpj,
+          cep: cep,
+          numero: numero,
+          email: email,
+        },
+        {
+          headers: {
+            Authorization: `Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11`
+          },
+        }
+      );
+    
+      Swal.fire({
+        title: "Guarde suas informações",
+        text: `numero: ${resposta.data.codigo} || usuario: ${usuario} || senha: ${senha}`,
+        icon: "success"
+      });
+      console.log('Resposta da API:', resposta.data);
+    } catch (erro) {
+      // Lidar com erros aqui
+      console.error('Erro ao enviar requisição:', erro);
+    }
   };
+  
+  
 
   return (
     <View style={styles.all}>
@@ -33,53 +69,49 @@ const Cadastro = () => {
           style={styles.input}
           placeholder="Usuário"
           value={usuario}
-          onChangeText={(text) => setUsuario(text)}
+          onChangeText={(texto) => setUsuario(texto)}
         />
         <TextInput
           style={styles.input}
           placeholder="Senha"
-          secureTextEntry
           value={senha}
-          onChangeText={(text) => setSenha(text)}
+          onChangeText={(texto) => setSenha(texto)}
         />
         <TextInput
           style={styles.input}
           placeholder="CPF/CNPJ"
-          secureTextEntry
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
+          value={cpf_cnpj}
+          onChangeText={(texto) => setCpf_cnpj(texto)}
         />
         <TextInput
           style={styles.input}
           placeholder="CEP"
-          secureTextEntry
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
+          value={cep}
+          onChangeText={(texto) => setCep(texto)}
         />
         <TextInput
           style={styles.input}
           placeholder="Telefone"
-          secureTextEntry
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
+          value={numero}
+          onChangeText={(texto) => setNumero(texto)}
         />
         <TextInput
           style={styles.input}
           placeholder="Email"
-          secureTextEntry
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
+          value={email}
+          onChangeText={(texto) => setEmail(texto)}
         />
+        {/*
         <TextInput
           style={styles.input}
           placeholder="Foto"
-          secureTextEntry
-          value={senha}
-          onChangeText={(text) => setSenha(text)}
+          value={dados.foto}
+          onChangeText={(texto) => setDados({dados, chave7: texto })}
         />
-        <Button title="Cadastrar!" onPress={handleLogin} />
+  */}
+        <Button title="Cadastrar!" onPress={enviarRequisicao} />
 
-        <TouchableOpacity onPress={handleCadastro}>
+        <TouchableOpacity onPress={handleLogin}>
         <Text></Text>
         <Text style={styles.cadastroButton}>Ir Para tela de Login</Text>
       </TouchableOpacity>
