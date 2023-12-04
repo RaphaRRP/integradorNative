@@ -3,16 +3,20 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput} from 're
 import Movements from "../../components/Movements";
 import axios from 'axios'
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../LoginScreen/AuthContext'
+import Swal from 'sweetalert2';
 
 const Emprestimo = () => {
 
 const [emprestimo, setEmprestimo] = useState("");
+const [valor, setValor] = useState("");
+const { codigoLogado } = useAuth();
 
 useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://10.109.71.22:8000/api/v1/cliente/5/",
+          `http://10.109.71.22:8000/api/v1/cliente/${codigoLogado}/`,
           {
             headers: {
               Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
@@ -28,6 +32,56 @@ useEffect(() => {
     fetchData();
   }, []);
 
+  async function botaoEmprestimo() {
+    try {
+      
+      if (emprestimo === 0) {
+         // Atualize o estado para indicar que o cartão foi solicitado
+        Swal.fire({
+          title: 'Emprestimo Realizado',
+          text: `Valor: ${valor}`,
+          icon: 'success',
+        });
+
+      const resposta = await axios.post(
+        `http://10.109.71.22:8000/emprestimo/`,
+        {
+          valor_solicitado: valor,
+          Codigo_Cliente: codigoLogado
+        },
+        {
+          headers: {
+            Authorization: `Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11`,
+          },
+        }
+      );
+    }
+    else{
+      Swal.fire({
+        title: 'Emprestimo Pago',
+        text: `Valor: ${valor}`,
+        icon: 'success',
+      });
+      const resposta = await axios.patch(
+        `http://10.109.71.22:8000/api/v1/emprestimo-pagar/${codigoLogado}/`,
+        {},
+        {
+          headers: {
+            Authorization: `Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11`,
+          },
+        }
+      );
+
+    }
+  } 
+
+    
+    catch (erro) {
+      // Lidar com erros aqui
+      console.error('Erro ao enviar requisição:', erro);
+    }
+  }
+
 
     return(
         <View style={styles.container}>
@@ -39,11 +93,11 @@ useEffect(() => {
                     <TextInput
                     style={styles.input}
                     placeholder="Valor"
-                    //onChangeText={(text) => setNumero(text)}
+                    onChangeText={(text) => setValor(text)}
                     />
 
 
-                        <TouchableOpacity style={styles.button}>
+                  <TouchableOpacity style={styles.button} onPress={botaoEmprestimo}>
                     <Text style={styles.buttonText}>Pedir Emprestimo</Text>
                  </TouchableOpacity>
              </View>

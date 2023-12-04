@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { AuthProvider } from './src/pages/LoginScreen/AuthContext'
 
 import Home from './src/pages/Home'
 import LoginScreen from './src/pages/LoginScreen'
@@ -13,18 +14,20 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <AuthProvider>
     <NavigationContainer >
-      <Stack.Navigator screenOptions={{headerShown: false,}}>
-        <Stack.Screen name='LoginScreen' component={LoginScreen}/>  
-        <Stack.Screen name='Home' component={Home}/>
-    
-        <Stack.Screen name='Cadastro' component={Cadastro}/>
-        <Stack.Screen name='Movimentacoes' component={Movimentacoes}/>
-        <Stack.Screen name='User' component={User}/>
-        <Stack.Screen name='Emprestimo' component={Emprestimo}/>
-        <Stack.Screen name='Cartao' component={Cartao}/>
+        <Stack.Navigator screenOptions={{headerShown: false,}}>
+          <Stack.Screen name='LoginScreen' component={LoginScreen}/>  
+          <Stack.Screen name='Home' component={Home}/>
+      
+          <Stack.Screen name='Cadastro' component={Cadastro}/>
+          <Stack.Screen name='Movimentacoes' component={Movimentacoes}/>
+          <Stack.Screen name='User' component={User}/>
+          <Stack.Screen name='Emprestimo' component={Emprestimo}/>
+          <Stack.Screen name='Cartao' component={Cartao}/>
 
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }

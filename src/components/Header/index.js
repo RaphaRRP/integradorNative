@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-nati
 import { AntDesign } from '@expo/vector-icons'
 import {useNavigation} from '@react-navigation/native'
 import axios from 'axios'
+import { useAuth } from '../../pages/LoginScreen/AuthContext'
 
 const { width, height } = Dimensions.get('window');
 
@@ -10,12 +11,13 @@ const Header = ({ userName, text}) => {
   const [mostrarSaldo, setMostrarSaldo] = useState(false);
   const { navigate } = useNavigation();
   const [saldo, setSaldo] = useState("");
+  const { codigoLogado } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://10.109.71.22:8000/api/v1/cliente/2/",
+          `http://10.109.71.22:8000/api/v1/cliente/${codigoLogado}/`,
           {
             headers: {
               Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",

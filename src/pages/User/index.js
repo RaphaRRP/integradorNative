@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Movements from "../../components/Movements";
 import axios from 'axios'
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../LoginScreen/AuthContext'
 
 
 
@@ -13,12 +14,13 @@ const User = () => {
   const [cep, setCep] = useState("");
   const [tel, setTel] = useState("");
   const [email, setEmail] = useState("");
+  const { codigoLogado } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://10.109.71.22:8000/api/v1/cliente/4/",
+          `http://10.109.71.22:8000/api/v1/cliente/${codigoLogado}/`,
           {
             headers: {
               Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",

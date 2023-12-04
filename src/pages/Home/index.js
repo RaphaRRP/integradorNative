@@ -4,6 +4,7 @@ import Movements from "../../components/Movements";
 import {useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import { useState, useEffect } from "react";
+import { useAuth } from '../LoginScreen/AuthContext'
 
 // async function getUser() {
 //   const response = await axios.get('http://10.109.71.22:8000/api/v1/cliente/1/', {
@@ -17,12 +18,13 @@ import { useState, useEffect } from "react";
 
 const Home = () => {
   const { navigate } = useNavigation();
+  const { codigoLogado } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://10.109.71.22:8000/api/v1/cliente/2/",
+          `http://10.109.71.22:8000/api/v1/cliente/${codigoLogado}/`,
           {
             headers: {
               Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
