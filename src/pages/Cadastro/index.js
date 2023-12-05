@@ -14,6 +14,7 @@ const Cadastro = () => {
   const [cep, setCep] = useState('');
   const [numero, setNumero] = useState('');
   const [email, setEmail] = useState('');
+  const [image, setImage] = useState('');
   const dados = {
     usuario: usuario,
     senha: senha,
@@ -21,6 +22,7 @@ const Cadastro = () => {
     cep: cep,
     numero: numero,
     email: email,
+    image: image,
   }
 
   const handleLogin = () => {
@@ -39,6 +41,7 @@ const Cadastro = () => {
           cep: cep,
           numero: numero,
           email: email,
+          image: image,
         },
         {
           headers: {
@@ -101,14 +104,14 @@ const Cadastro = () => {
           value={email}
           onChangeText={(texto) => setEmail(texto)}
         />
-        {/*
+        
         <TextInput
           style={styles.input}
           placeholder="Foto"
-          value={dados.foto}
-          onChangeText={(texto) => setDados({dados, chave7: texto })}
+          value={image}
+          onChangeText={(texto) => setImage(texto)}
         />
-  */}
+  
         <Button title="Cadastrar!" onPress={enviarRequisicao} />
 
         <TouchableOpacity onPress={handleLogin}>

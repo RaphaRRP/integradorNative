@@ -3,7 +3,7 @@ import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'rea
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useAuth } from './AuthContext'; // Importe o useAuth
+import { useAuth } from './AuthContext'; 
 
 const LoginScreen = () => {
   const { navigate } = useNavigation();
@@ -52,9 +52,13 @@ const LoginScreen = () => {
       const codigoLogado = codigoNumero;
       setCodigoLogado(codigoLogado); // Armazene no contexto
       handleLogin();
-    } catch (erro) {
-      // Lidar com erros aqui
-      console.error('Erro ao enviar requisição:', erro);
+    } catch (resposta) {
+      Swal.fire({
+        title: 'Informações incorretas',
+        text: `Após 3 erros, próximas tentativas demoram`,
+        icon: 'error',
+      });
+      console.error('Erro ao enviar requisição:', resposta);
     }
   };
 

@@ -1,5 +1,5 @@
 import Voltar from "../../components/Voltar";
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
 import Movements from "../../components/Movements";
 import axios from 'axios'
 import React, { useState, useEffect } from 'react';
@@ -15,6 +15,7 @@ const User = () => {
   const [tel, setTel] = useState("");
   const [email, setEmail] = useState("");
   const { codigoLogado } = useAuth();
+  const [image, setImage] = useState("")
 
   useEffect(() => {
     async function fetchData() {
@@ -32,6 +33,7 @@ const User = () => {
         setCep(response.data.cep);
         setTel(response.data.numero);
         setEmail(response.data.email);
+        setImage(response.data.image);
       } catch (error) {
         console.error("Erro ao obter usuário:", error);
       }
@@ -44,7 +46,11 @@ const User = () => {
     <View style={styles.all}> 
     <Voltar text='Usuer'/>
         <View style={styles.container}>
-        <View style={styles.circle} />
+          
+        
+        <Image source={{ uri: image }}
+        style={styles.image}/>
+
 
       <Text style={styles.label}>USUÁRIO</Text>
       <Text style={styles.value}>{usuario}</Text>
@@ -100,6 +106,12 @@ const styles = StyleSheet.create({
   value: {
     flexShrink: 1,
   },
+  image:{
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+
+  }
 });
 
 export default User;

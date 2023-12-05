@@ -4,17 +4,68 @@ import Movements from "../../components/Movements";
 import axios from 'axios'
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../LoginScreen/AuthContext'
+import Swal from 'sweetalert2';
 
 
 const Movimentacao = () =>{
 
     const [movements, setMovements] = useState([]);
-    const { codigoLogado } = useAuth();
+    const [codigoReceber, setCodigoReceber] = useState([]);
 
+    const [valor, setValor] = useState();
+    const [saldo, setSaldo] = useState();
+    const { codigoLogado } = useAuth();
+    
+
+    //Post movimentações
+    async function botaoMovimentacao() {
+      try {
+
+        //const saldoNumber = Number(saldo)
+        console.log(valor, saldo)
+        if (saldo >= valor) {
+           // Atualize o estado para indicar que o cartão foi solicitado
+          Swal.fire({
+            title: 'Emprestimo Realizado',
+            text: `Valor: ${valor}`,
+            icon: 'success',
+          });
+  
+        const resposta = await axios.post(
+          `http://10.109.71.22:8000/api/v1/movimentacao/`,
+          {
+            valor: valor,
+            cliente_pagar: codigoLogado,
+            cliente_receber: codigoReceber
+          },
+          {
+            headers: {
+              Authorization: `Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11`,
+            },
+          }
+        );
+        console.log(resposta)
+      }
+      else{
+        Swal.fire({
+          title: 'Saldo insuficiente',
+          text: `Faltaram R$${valor-saldo}`,
+          icon: 'info',
+        });  
+      }
+    } 
+      catch (erro) {
+        // Lidar com erros aqui
+        console.error('Erro ao enviar requisição:', erro);
+      }
+    }
+
+
+    //Get movimentações
     useEffect(() => {
         async function fetchData() {
           try {
-            const response = await axios.get(
+            const mov = await axios.get(
               `http://10.109.71.22:8000/api/v1/cliente/${codigoLogado}/movimentacao/`,
               {
                 headers: {
@@ -22,8 +73,7 @@ const Movimentacao = () =>{
                 },
               }
             );
-            setMovements(response.data);
-            console.log(response.data)
+            setMovements(mov.data);
           } catch (error) {
             console.error("Erro ao obter usuário:", error);
           }
@@ -41,6 +91,28 @@ const Movimentacao = () =>{
         </View>
       );
 
+      //Getsaldo 
+      useEffect(() => {
+      async function fetchData() {
+        try {
+          const response = await axios.get(
+            `http://10.109.71.22:8000/api/v1/cliente/${codigoLogado}/`,
+            {
+              headers: {
+                Authorization: "Token 63d15c6d3adeb0eff6f27a2acaa9bc025f976c11",
+              },
+            }
+          );
+          setSaldo(response.data.saldo);
+          console.log(saldo)
+
+        } catch (error) {
+          console.error("Erro ao obter usuário:", error);
+        }
+      }
+      fetchData();
+    }, []);
+
     return(
         <View style={styles.container}>
             <Voltar text="Movimentações"/>
@@ -51,17 +123,17 @@ const Movimentacao = () =>{
                     <TextInput
                     style={styles.input}
                     placeholder="Conta"
-                    //onChangeText={(text) => setNumero(text)}
+                    onChangeText={(text) => setCodigoReceber(text)}
                     />
 
                     <TextInput
                     style={styles.input}
                     placeholder="Valor"
-                    //onChangeText={(text) => setNumero(text)}
+                    onChangeText={(text) => setValor(text)}
                     />
 
 
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={botaoMovimentacao}>
                     <Text style={styles.buttonText}>Fazer Transação</Text>
                  </TouchableOpacity>
              </View>
@@ -75,6 +147,7 @@ const Movimentacao = () =>{
         renderItem={renderMovementItem}
       />
         </View>
+        <Text>{`${saldo}`}</Text>
         </View>
     )
 }
